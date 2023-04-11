@@ -1,0 +1,9 @@
+# ninja log v5
+4	869	7029161367723256	CMakeFiles/DirectedGraph.dir/main.cpp.obj	d012c46ee586d994
+869	983	7029161368842617	DirectedGraph.exe	3408d0b565c7a7c9
+4	851	7029161720448215	CMakeFiles/DirectedGraph.dir/main.cpp.obj	d012c46ee586d994
+851	963	7029161721557589	DirectedGraph.exe	3408d0b565c7a7c9
+4	856	7029162029211602	CMakeFiles/DirectedGraph.dir/main.cpp.obj	d012c46ee586d994
+857	972	7029162030341192	DirectedGraph.exe	3408d0b565c7a7c9
+4	853	7029162620751899	CMakeFiles/DirectedGraph.dir/main.cpp.obj	d012c46ee586d994
+854	966	7029162621861274	DirectedGraph.exe	3408d0b565c7a7c9
