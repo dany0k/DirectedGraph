@@ -25,23 +25,32 @@ public:
     void getMessage(const std::string &message);
 };
 
+
 template<typename T>
 int DirectedGraph<T>::removeEdge(Edge<T> &edge) {
     for (auto& key: adjList) {
         if (key.first == edge.src) {
-            for (auto& item: key.second) {
-                if (item == edge.dest) {
-                    getMessage("Successfully Removed edge!");
+            std::vector<T> childs = adjList[edge.src];
+            if (childs.size() == 1) {
+                auto it = adjList.find(key.first);
+                adjList.erase(it);
+                getMessage("Successfully removed edge!");
+                edgeCount--;
+                return 0;
+            }
+            for (int i = 0; !childs.empty(); i++) {
+                if (childs[i] == edge.dest) {
+                    childs.erase(childs.begin() + i);
+                    adjList[edge.src] = childs;
+                    getMessage("Successfully removed edge!");
+                    edgeCount--;
                     return 0;
-                } else {
-                    getMessage("No such edge!");
-                    return 1;
                 }
             }
         }
     }
-    getMessage("Smth went wrong!");
-    return 2;
+    getMessage("No such edge!");
+    return 1;
 }
 
 
@@ -54,7 +63,7 @@ int DirectedGraph<T>::addEdge(Edge<T> &newEdge) {
                     getMessage("Already have this edge!");
                     return 1;
                 } else {
-                    adjList[newEdge.src] = {newEdge.dest};
+                    adjList[newEdge.src].push_back(newEdge.dest);
                     getMessage("Added new edge!");
                     edgeCount++;
                     return 0;
@@ -62,7 +71,7 @@ int DirectedGraph<T>::addEdge(Edge<T> &newEdge) {
             }
         }
     }
-    adjList[newEdge.src].push_back(newEdge.dest);
+    adjList[newEdge.src] = {newEdge.dest};
     edgeCount++;
     getMessage("Added new edge and vertex!");
     return 0;
