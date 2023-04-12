@@ -19,25 +19,53 @@ private:
 public:
     DirectedGraph(std::vector<Edge<T>>& edges);
     int getEdgeCount();
-    void removeEdge(Edge<T>& newEdge);
-    void addEdge(Edge<T>& newEdge);
+    int removeEdge(Edge<T>& edge);
+    int addEdge(Edge<T>& newEdge);
     std::map<T, std::vector<T>> &getAdjList();
+    void getMessage(const std::string &message);
 };
 
 template<typename T>
-void DirectedGraph<T>::removeEdge(Edge<T> &edge) {
-//    adjList.erase(std::find(adjList);
+int DirectedGraph<T>::removeEdge(Edge<T> &edge) {
+    for (auto& key: adjList) {
+        if (key.first == edge.src) {
+            for (auto& item: key.second) {
+                if (item == edge.dest) {
+                    getMessage("Successfully Removed edge!");
+                    return 0;
+                } else {
+                    getMessage("No such edge!");
+                    return 1;
+                }
+            }
+        }
+    }
+    getMessage("Smth went wrong!");
+    return 2;
 }
 
 
 template<typename T>
-void DirectedGraph<T>::addEdge(Edge<T> &newEdge) {
-    if (newEdge.src > edgeCount) {
-        adjList[newEdge.src] = {newEdge.dest};
-    } else {
-        adjList[newEdge.src].push_back(newEdge.dest);
+int DirectedGraph<T>::addEdge(Edge<T> &newEdge) {
+    for (auto& key: adjList) {
+        if (key.first == newEdge.src) {
+            for (auto& item: key.second) {
+                if (item == newEdge.dest) {
+                    getMessage("Already have this edge!");
+                    return 1;
+                } else {
+                    adjList[newEdge.src] = {newEdge.dest};
+                    getMessage("Added new edge!");
+                    edgeCount++;
+                    return 0;
+                }
+            }
+        }
     }
+    adjList[newEdge.src].push_back(newEdge.dest);
     edgeCount++;
+    getMessage("Added new edge and vertex!");
+    return 0;
 }
 
 template<typename T>
@@ -56,5 +84,11 @@ DirectedGraph<T>::DirectedGraph(std::vector<Edge<T>> &edges) {
         adjList[edge.src].push_back(edge.dest);
     }
     edgeCount = adjList.size();
+}
+
+template<typename T>
+void DirectedGraph<T>::getMessage(const std::string& message) {
+    std::cout << "===========Message===========\n" <<
+        message << "\n============================="<< std::endl;
 }
 
